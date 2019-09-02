@@ -1,0 +1,8 @@
+# Default ignored files
+*.class
+*.log
+
+# Default ignored folders
+out/
+.git/
+.idea/
