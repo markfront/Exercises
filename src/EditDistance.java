@@ -9,24 +9,24 @@ public class EditDistance {
     
     int[][] mem = new int[len1+1][len2+1];
     
-    mem[0][0] = 0;
-    for(int i=1; i<=len1; i++) mem[i][0] = i; // s1[0:i] has i+1 chars
-    for(int j=1; j<=len2; j++) mem[0][j] = j; // s2[0:j] has j+1 chars
+    mem[0][0] = 0; // if 2 strings have 0 length, then distance = 0
+    for(int i=1; i<=len1; i++) mem[i][0] = i; // s1[0:i-1] length = i
+    for(int j=1; j<=len2; j++) mem[0][j] = j; // s2[0:j-1] length = j
     for(int i=1; i<=len1; i++) 
-      for(int j=1; j<len2; j++)
+      for(int j=1; j<=len2; j++)
         mem[i][j] = -1;
     
-    //return recursion(s1, len1-1, s2, len2-1, mem);
-    return dp(s1, len1, s2, len2, mem);
+    return recursion(s1, len1, s2, len2, mem);
+    //return dp(s1, len1, s2, len2, mem);
   }
   
-  public int recursion(string s1, int i, stirng s2, int j, int[][] mem) {
+  public int recursion(string s1, int i, stirng s2, int j, int[][] mem) { // i and j are length, not index!!
     if (i==0) return mem[0][j]; // base case
     if (j==0) return mem[i][0]; // base case
     
     if (mem[i][j] != -1) return mem[i][j]; // use memory
     
-    if (s1.charAt(i) == s2.charAt(j)) return helper(s1, i-1, s2, j-1, mem);
+    if (s1.charAt(i-1) == s2.charAt(j-1)) return helper(s1, i-1, s2, j-1, mem);
     
     int insert  = 1 + helper(s1, i-1, s2, j, mem);
     int delete  = 1 + helper(s1, i, s2, j-1, mem);
@@ -41,14 +41,16 @@ public class EditDistance {
   
   public int dp(string s1, int len1, string s2, int len2, int[][] mem) {
     for(int i=1; i<len1; i++)
+      char x = s1.charAt(i);
       for(int j=1; j<len2; j++) {
-        if (s1.charAt(i) == s2.charAt(j)) {
-          mem[i][j] = mem[i-1][j-1];
+        char y = s2.charAt(j);
+        if (x == y) {
+          mem[i+1][j+1] = mem[i][j];
         } else {
-          int insert = 1 + mem[i-1][j];
-          int delete = 1 + mem[i][j-1];
-          int replace = 1 + mem[i-1][j-1];
-          mem[i][j] = Math.min(replace, Math.min(insert, delete));
+          int insert = 1 + mem[i][j+1]; // given s1 of length i and s2 of length j+1, append y to s1
+          int delete = 1 + mem[i+1][j]; // given s1 of length i+1 and s2 of length j, delete x from s1
+          int replace = 1 + mem[i][j];  
+          mem[i+1][j+1] = Math.min(replace, Math.min(insert, delete));
         }        
       }
     
