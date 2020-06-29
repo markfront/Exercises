@@ -8,7 +8,7 @@ Given [1, 2, 5] and amount=7, the method should return 2.
 */
 
 public class DP_CoinChange {
-  
+  // Time complexity is O(amount * num_of_coins) and space complexity is O(amount).
   public int solve(int[] coins, int amout) {
     if (coins==null || coins.length==0 || amuont<=0) return -1;
     
@@ -36,6 +36,43 @@ public class DP_CoinChange {
     
     return dp[amount];
   }
+  
+  // recursion with memory
+  public int recursion(int[] coins, int amount) {
+    if (coins==null || coins.length==0 || amuont<=0) return -1;
+    
+    int[] mem = new int[amount+1];
+    Arrays.fill(mem, Integer.MAX_VALUE);
+    mem[0] = 0;
+    
+    return helper(coins, amount, mem);
+  }
+                
+  public int helper(int[] coins, int a, int[] mem) {
+    if (mem[a] != Integer.MAX_VALUE) return mem[a];
+    
+    for(int coin : coins) {
+      if (coin == a) {
+        mem[a] = 1;
+        return 1; // use 1 coin to make the amount a
+      } else {
+        if (coin > a) continue; // cannot make the amount
+        else {
+          int r = helper(coins, a-coin, mem);
+          if (r != -1) {
+            mem[a] = Math.min(mem[a], r + 1);
+          } else {
+            continue;
+          }
+        }
+      }
+    }
+    
+    int result = (mem[a] == Integer.MAX_VALUE) ? -1 : mem[a];
+    
+    return result;
+  }
 }
 
-// Time complexity is O(amount * num_of_coins) and space complexity is O(amount).
+
+
