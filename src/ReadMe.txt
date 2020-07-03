@@ -7,3 +7,8 @@
 (5) Permutation in String Inclusion (keep a sliding window of fix size, each step update the window by remove left and add right)
 (6) Statistics in Large Sample (one scan for min/max/mode/mean, two scan for median)
 (7) Longest Word in Dictionary through Deleting (find if all chars in t are in s in the original order)
+(8) 3 Sum (sort array, for each i (check to skip dup), go through the rest elements by j,k)
+(9) 4 Sum (similar to 3 sum, for each i and i+1, use 2 pointers k and h in the rest elements)
+
+
+
