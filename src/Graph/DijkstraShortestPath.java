@@ -51,7 +51,7 @@ public class DijkstraShortestPath {
       public int compare(Vertext v1, Vertex v2) {
         float d1 = (dist.ContainsKey(v1))? dist.get(v1) : Float.MAX_VALUE;
         float d2 = (dist.ContainsKey(v2))? dist.get(v2) : Float.MAX_VALUE;
-        return d1 < d2;          
+        return d1 < d2; // compare distance to the source vertex
       }
     };
     
@@ -61,7 +61,7 @@ public class DijkstraShortestPath {
       if (v != source) {
         dist.put(v, Float.MAX_VALUE);
         
-        queue.offer(v); // add the v to the queue (us dist as priority)
+        queue.offer(v); // add the v to the queue (use dist as priority)
       }
     }
     
@@ -89,7 +89,7 @@ public class DijkstraShortestPath {
     4      while u is defined:                       // Construct the shortest path with a stack S
     5          insert u at the beginning of S        // Push the vertex onto the stack
     6          u ← prev[u]                           // Traverse from target to source
-    /*
+    */
     
     List<Vertex> path = new List<>();
     if (prev.containsKey(target) || target == source) { // found a path from soure to target
