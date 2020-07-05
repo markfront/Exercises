@@ -5,7 +5,7 @@ https://leetcode.com/problems/the-dining-philosophers/
 class DiningPhilosophers {
     ReentrantLock[] fk_locks = new ReentrantLock[5];
     
-    ReentrantLock ph_lock = new ReentrantLock(true);
+    ReentrantLock ph_lock = new ReentrantLock(true); // true means to use fairness policy
 
     public DiningPhilosophers() {
         for(int i=0; i< 5; i++) {
@@ -26,7 +26,7 @@ class DiningPhilosophers {
         fk_locks[philosopher].lock();
         pickLeftFork.run();
 
-        int leftside = (philosopher+1)%5;
+        int leftside = (philosopher+1)%5; // the philosopher on the left hand side
         fk_locks[leftside].lock();
         pickRightFork.run();
 
