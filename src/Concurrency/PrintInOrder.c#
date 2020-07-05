@@ -1,0 +1,50 @@
+/*
+https://leetcode.com/problems/print-in-order/
+
+The trick is to use volatile variable:
+
+The volatile keyword does not cache the value of the variable and always read the variable from the main memory. 
+Volatile keyword is used to modify the value of a variable by different threads. It is also used to make classes thread safe. 
+It means that multiple threads can use a method and instance of the classes at the same time without any problem. 
+*/
+
+public class Foo {
+    private volatile int flag; // volatile means 
+
+    public Foo() {
+        flag = 1;
+    }
+
+    public void First(Action printFirst) {
+        while(true) {
+            if (flag==1) {
+        // printFirst() outputs "first". Do not change or remove this line.
+        printFirst();
+                flag = 2;
+                break;
+            }
+        }
+    }
+
+    public void Second(Action printSecond) {
+        while(true) {
+            if (flag==2) {
+        // printSecond() outputs "second". Do not change or remove this line.
+        printSecond();
+                flag = 3;
+                break;
+            }
+        }
+    }
+
+    public void Third(Action printThird) {
+        while(true) {
+            if (flag==3) {
+        // printThird() outputs "third". Do not change or remove this line.
+        printThird();
+                flag = 1;
+                break;
+            }
+        }
+    }
+}
