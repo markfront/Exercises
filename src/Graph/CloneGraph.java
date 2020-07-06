@@ -27,8 +27,8 @@ class Solution {
     public Node cloneGraph(Node node) {
         if (node==null) return null;
         
-        Deque<Node> queue = new ArrayDeque<>();
-        Map<Node, Node> map = new HashMap<>(); // keep the nodes already cloned!
+        Deque<Node> queue = new ArrayDeque<>(); // keep nodes already cloned but yet to fill all neighbors
+        Map<Node, Node> map = new HashMap<>(); // keep mapping from a node to its cloned copy!
         
         Node head = node;
         Node newHead = new Node(head.val);
@@ -43,10 +43,12 @@ class Solution {
             List<Node> neighbors = curr.neighbors;
             for(Node neighbor: neighbors) {
                 if (!map.containsKey(neighbor)) { 
-                    queue.offer(neighbor);
+                    // this neighbor not cloned yet, now clone it
                     Node copyNeighbor = new Node(neighbor.val);
                     copy.neighbors.add(copyNeighbor);
                     map.put(neighbor, copyNeighbor);
+                    // add to queue to fill the cloned node's neighbors
+                    queue.offer(neighbor);
                 } else {
                     copy.neighbors.add(map.get(neighbor)); // neighbor already cloned
                 }
