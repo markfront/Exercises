@@ -1,6 +1,17 @@
 /*
 https://leetcode.com/problems/partition-labels/
 
+A string S of lowercase letters is given. We want to partition this string into as many parts as possible 
+so that each letter appears in at most one part, and return a list of integers representing the size of these parts.
+
+For example:
+
+Input: S = "ababfeefhijkh"
+Output: [4,4,5]
+
+Explanation:
+The partition is "abab", "feef", "hijkh". This is a partition so that each letter appears in at most one part.
+
 The idea is to find start/end index for each char, consider each [start,end] as interval, then transform the problem into merge intervals.
 */
 
