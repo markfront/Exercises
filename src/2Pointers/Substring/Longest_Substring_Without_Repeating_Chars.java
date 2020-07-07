@@ -34,8 +34,15 @@ class Solution {
         while(i<=j && j<s.length()) {
             char c = s.charAt(j);
             if (set.contains(c)) {
-                set.remove(s.charAt(i));
-                i++;
+                while(i<j){
+                  if(s.charAt(i)==c){
+                      i++;
+                      break;
+                  }
+
+                  set.remove(s.charAt(i));
+                  i++;
+                }
             } else {
                 set.add(c);
                 maxLen = Math.max(maxLen, set.size());
