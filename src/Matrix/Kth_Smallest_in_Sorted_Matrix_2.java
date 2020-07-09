@@ -1,6 +1,8 @@
 /*
 Same problem, use minHeap. the idea is easier to follow.
 
+    Consider it as a Top K problem, so can use a PriorityQueue to go over the numbers, and utilize the order in a row or column.
+    
     Build a minHeap of elements from the first row.
     Do the following operations k-1 times :
     Every time when you poll out the root(Top Element in Heap), you need to know the row number and 
