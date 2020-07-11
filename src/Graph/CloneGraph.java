@@ -27,30 +27,35 @@ class Solution {
     public Node cloneGraph(Node node) {
         if (node==null) return null;
         
-        Deque<Node> queue = new ArrayDeque<>(); // keep nodes already cloned but yet to fill all neighbors
-        Map<Node, Node> map = new HashMap<>(); // keep mapping from a node to its cloned copy!
+        Deque<Node> queue = new ArrayDeque<>();
+        Map<Node, Node> map = new HashMap<>(); // keep nodes already cloned
         
         Node head = node;
         Node newHead = new Node(head.val);
         map.put(head, newHead);
-        queue.offer(node);
         
-        // Breadth-First traverse, clone the neighbor nodes on the go
+        queue.offer(node);
         
         while(!queue.isEmpty()) {
             Node curr = queue.poll();
             Node copy = map.get(curr);
-            List<Node> neighbors = curr.neighbors;
-            for(Node neighbor: neighbors) {
-                if (!map.containsKey(neighbor)) { 
-                    // this neighbor not cloned yet, now clone it
-                    Node copyNeighbor = new Node(neighbor.val);
-                    copy.neighbors.add(copyNeighbor);
-                    map.put(neighbor, copyNeighbor);
-                    // add to queue to fill the cloned node's neighbors
-                    queue.offer(neighbor);
+            
+            for(Node nbr: curr.neighbors) {
+                if (!map.containsKey(nbr)) {
+                    // node nbr has not been cloned                    
+                    Node copy_nbr = new Node(nbr.val);
+                    
+                    // nbr is curr's neighbor
+                    // copy_nbr is copy's neighbor
+                    copy.neighbors.add(copy_nbr);
+                    
+                    map.put(nbr, copy_nbr); // indicate nbr has been cloned
+                    
+                    queue.offer(nbr); // add nbr to queue to traverse its neighbors
                 } else {
-                    copy.neighbors.add(map.get(neighbor)); // neighbor already cloned
+                    // clone the edge: curr-->nbr
+                    // copy-->nbr's clone
+                    copy.neighbors.add(map.get(nbr));
                 }
             }
         }
@@ -58,3 +63,4 @@ class Solution {
         return newHead;
     }
 }
+
