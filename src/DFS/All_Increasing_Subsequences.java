@@ -32,7 +32,8 @@ class Solution {
     
     private void helper(int[] nums, int start, List<Integer> holder, 
                         Set<List<Integer>> result, int n) {
-       
+        // before adding more to the holder (as to be done in the following for-loop)
+        // check the numbers in the current holder and add to result
         if (holder.size()>=2) {
             result.add(new ArrayList<Integer>(holder)); // use HashSet to avoid dups
         }
