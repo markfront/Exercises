@@ -23,3 +23,8 @@
                   2. use stack, start by push all left children till left most leave, then start pop, 
                      for each poped node, push all left children to left most leave, populate the right child.
 (7) Path Sum Equals Given Sum ()
+
+3. DFS + Backtracking:
+
+https://leetcode.com/problems/subsets/discuss/27281/A-general-approach-to-backtracking-questions-in-Java-(Subsets-Permutations-Combination-Sum-Palindrome-Partitioning)
+
