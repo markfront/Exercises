@@ -50,7 +50,7 @@ class Solution {
         List<Integer> path = new ArrayList<>();
         path.add(root.val);
         
-        helper(root, sum-root.val, path, result);
+        helper(root, sum, path, result);
         
         return result;
     }
@@ -59,7 +59,7 @@ class Solution {
     private void helper(TreeNode node, int sum, List<Integer> path, 
                         List<List<Integer>> result) {
         if (node.left==null && node.right==null) {
-            if (sum==0) {
+            if (sum==node.val) {
                 // found 1 path
                 // Note: need to create a new ArrayList!!!
                 result.add(new ArrayList(path)); 
@@ -71,13 +71,13 @@ class Solution {
         
         if (node.left != null) {
             path.add(node.left.val);
-            helper(node.left, sum - node.left.val, path, result);
+            helper(node.left, sum - node.val, path, result);
             path.remove(path.size()-1);
         } 
         
         if (node.right != null) {
             path.add(node.right.val);
-            helper(node.right, sum - node.right.val, path, result);
+            helper(node.right, sum - node.val, path, result);
             path.remove(path.size()-1);
         }
     }
