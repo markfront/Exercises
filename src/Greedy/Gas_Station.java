@@ -68,7 +68,7 @@ class Solution {
         
         Comparator<Station> comp = new Comparator<Station>() {
             public int compare(Station a, Station b) {                
-                return (new Double(b.profit)).compareTo(new Double(a.profit));
+                return b.profit - a.profit;
             }
         };
         
