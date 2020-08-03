@@ -45,7 +45,7 @@ class Solution {
         Arrays.sort(intervals, comp);
         
         List<Integer> result = new ArrayList<>();
-        int i=0, j=1;
+        int i=0, j=1; // i: the left interval, j: the right interval
         while(j<intervals.length) {
             if (intervals[j][1] <= intervals[i][1]) {
                 j++;
@@ -62,7 +62,7 @@ class Solution {
             }
         }
         
-        result.add(intervals[i][1] - intervals[i][0]+1);
+        result.add(intervals[i][1] - intervals[i][0]+1); // don't forget the size of the last interval
         
         return result;
     }
