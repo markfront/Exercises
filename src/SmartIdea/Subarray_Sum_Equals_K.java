@@ -16,8 +16,11 @@ Constraints:
 
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        Map<Integer, Integer> map = new HashMap<>(); // track how many times a sum has been seen
-        map.put(0, 1);
+        // track how many times a sum has been seen
+        // sum(i) = nums[0] + nums[1] + ... + nums[i]
+        // therefore, sum[i:j] = sum[j] - sum[i]
+        Map<Integer, Integer> map = new HashMap<>(); 
+        map.put(0, 1); // sum=0 occurs 1 time
 
         int count = 0;
         int sum = 0;
