@@ -21,20 +21,23 @@ Output:
 ]
 */
 
+// If S is a finite set with |S| = n elements, then the number of subsets of S is |P(S)| = 2^n.
+
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> list = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
         //Arrays.sort(nums); // not necessary, because the input numbers are unique
-        backtrack(list, new ArrayList<>(), nums, 0);
-        return list;
+        backtrack(result, new ArrayList<>(), nums, 0);
+        return result;
     }
 
-    private void backtrack(List<List<Integer>> list , List<Integer> tempList, 
+    private void backtrack(List<List<Integer>> result , List<Integer> tempList, 
                            int [] nums, int start){
-        list.add(new ArrayList<>(tempList));
+        result.add(new ArrayList<>(tempList));
+      
         for(int i = start; i < nums.length; i++){
             tempList.add(nums[i]);
-            backtrack(list, tempList, nums, i + 1);
+            backtrack(result, tempList, nums, i + 1);
             tempList.remove(tempList.size() - 1);
         }
     }
