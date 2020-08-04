@@ -74,3 +74,71 @@ class Solution {
         return new double[] {min, max, mean, median, mode};
     }
 }
+
+
+class Solution {
+    public double[] sampleStats(int[] count) {
+        double min, max, mean, median, mode;
+        
+        min = 255; //Double.MAX_VALUE;
+        max = 0; //Double.MIN_VALUE;
+        mode = 0;
+        long sum = 0;
+        int num_count = 0;
+        int mode_count = count[0];
+        
+        List<int[]> history = new ArrayList<>();
+        
+        for(int i=0; i<count.length; i++) {
+            if (count[i]==0) continue;
+            
+            sum += count[i] * i;
+            num_count += count[i];
+            
+            history.add(new int[]{num_count, i});
+            
+            if (min > i) { min = i; }
+            if (max < i) { max = i; }
+            if (mode_count < count[i]) { mode = i; mode_count = count[i]; }
+        }
+        
+        mean = sum * 1.0 / num_count;
+        
+        median = findMedian(history, num_count);
+        
+        return new double[]{min, max, mean, median, mode};
+    }
+    
+    private double findMedian(List<int[]> history, int total_count) {
+        int low = 0, high = history.size()-1;
+        
+        int mid1=low;        
+        while(mid1<high) {            
+            int mid1_count = history.get(mid1)[0];
+            if (mid1_count * 2 >= total_count) {
+                break;
+            } else {
+                mid1++;
+            }
+        }
+        
+        int mid2=high;        
+        while(mid2>low) {            
+            int mid2_count = total_count - history.get(mid2-1)[0];
+            if (mid2_count * 2 >= total_count) {
+                break;
+            } else {
+                mid2--;
+            }
+        }
+        
+        double median;
+        if (mid1 == mid2) {
+            median = history.get(mid1)[1];
+        } else {
+            median = ( history.get(mid1)[1] + history.get(mid2)[1] ) * 0.5 ;
+        }
+        
+        return median;
+    }
+    
