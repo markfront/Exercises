@@ -25,6 +25,7 @@ Constraints:
     Answers within 10^-5 of the true value will be accepted as correct.
 */
 
+// need 2 scans
 class Solution {
     public double[] sampleStats(int[] count) {
         double min=-1, max=0, mean=0, median=0, mode=0;
@@ -75,6 +76,7 @@ class Solution {
     }
 }
 
+// 1 scan solution
 
 class Solution {
     public double[] sampleStats(int[] count) {
@@ -142,3 +144,36 @@ class Solution {
         return median;
     }
     
+    // this binary search approach should work, but need fine tune.
+    private double findMedian1(List<int[]> history, int total_count) {
+        int low = 0, high = history.size()-1;
+        
+        int mid1=0, mid2=0;
+        while(low<=high) {
+            mid1 = low + (high-low)/2;
+            mid2 = low + (high-low+1)/2;
+            
+            int mid1_count = history.get(mid1)[0];
+            int mid2_count = history.get(mid2)[0];
+            
+            // must hold: mid1_count <= mid2_count
+            
+            if (mid2_count * 2 < total_count) {
+                low = mid1;
+            } else if (mid1_count * 2 > total_count) {
+                high = mid2;
+            } else {
+                break;
+            }
+        }
+        
+        double median;
+        if (mid1 == mid2) {
+            median = history.get(mid1)[1];
+        } else {
+            median = ( history.get(mid1)[1] + history.get(mid2)[1] ) * 0.5 ;
+        }
+        
+        return median;
+    }
+}
