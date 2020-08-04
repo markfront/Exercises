@@ -28,7 +28,7 @@ class Solution {
         if (node==null) return null;
         
         Deque<Node> queue = new ArrayDeque<>();
-        Map<Node, Node> map = new HashMap<>(); // keep nodes already cloned
+        Map<Node, Node> map = new HashMap<>(); // keep nodes already cloned: node --> its cloned copy
         
         Node head = node;
         Node newHead = new Node(head.val);
@@ -47,6 +47,7 @@ class Solution {
                     
                     // nbr is curr's neighbor
                     // copy_nbr is copy's neighbor
+                    // clone the edge: curr --> nbr, copy --> copy_nbr
                     copy.neighbors.add(copy_nbr);
                     
                     map.put(nbr, copy_nbr); // indicate nbr has been cloned
