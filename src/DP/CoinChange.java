@@ -13,7 +13,7 @@ public class DP_CoinChange {
     if (coins==null || coins.length==0 || amuont<=0) return -1;
     
     int[] dp = new int[amount+1];
-    Arrays.fill(dp, Integer.MAX_VALUE;
+    Arrays.fill(dp, Integer.MAX_VALUE);
     dp[0] = 0;
     
     for(int a=1; a<=amount; a++) {
@@ -47,7 +47,8 @@ public class DP_CoinChange {
     
     return helper(coins, amount, mem);
   }
-                
+  
+  // return number of coins needed to make the amount a.
   public int helper(int[] coins, int a, int[] mem) {
     if (mem[a] != Integer.MAX_VALUE) return mem[a];
     
@@ -56,7 +57,7 @@ public class DP_CoinChange {
         mem[a] = 1;
         return 1; // use 1 coin to make the amount a
       } else {
-        if (coin > a) continue; // cannot make the amount
+        if (coin > a) continue; // cannot make the amount using this coin
         else {
           int r = helper(coins, a-coin, mem);
           if (r != -1) {
