@@ -59,7 +59,7 @@ class Solution {
         
         Comparator<Interval> comp = new Comparator<>() {
             public int compare(Interval a, Interval b) {
-                return (new Integer(a.end)).compareTo(new Integer(b.end));
+                return a.end - b.end;
             }
         };
         
