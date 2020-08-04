@@ -29,16 +29,16 @@ class Solution {
     public double[] sampleStats(int[] count) {
         double min=-1, max=0, mean=0, median=0, mode=0;
         
-        int max_count=0;
+        int mode_count=0;
         long sum = 0l;
         int num_count=0;
         for(int i=0; i<=255; i++) {
             if (count[i]>0) { // i is sampled
                 if (min==-1) min = i; // min not set yet
                 if (max<i) max = i;
-                if (max_count < count[i]) {
+                if (mode_count < count[i]) {
                     mode = i;
-                    max_count = count[i];
+                    mode_count = count[i];
                 }
                 
                 num_count += count[i];
