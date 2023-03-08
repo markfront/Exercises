@@ -5,7 +5,7 @@ public class Combinations {
         List<String[]> result = new ArrayList<String[]>();
      
         int n = strings.length;
-        if (n <= 0 || n < k)
+        if (n <= 0 || n < k || k < 1)
             return result;
      
         List<String> item = new ArrayList<String>();

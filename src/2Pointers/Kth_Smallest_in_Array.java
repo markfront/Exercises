@@ -1,4 +1,4 @@
-public class Kth_Smallest {
+public class Kth_Smallest_in_Array {
   // given an integer array, and an integer k, find the k-th smallest element in the array.
   public int find(int[] nums, int k) {
     if (nums==null || nums.length == 0 || k > nums.length) return -1;

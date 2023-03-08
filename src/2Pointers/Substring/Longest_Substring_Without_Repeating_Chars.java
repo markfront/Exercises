@@ -22,34 +22,26 @@ Output: 3
 Explanation: The answer is "wke", with the length of 3. 
              Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 */
+import java.util.*;
 
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        if (s==null || s.length()==0) return 0;
-        
-        int maxLen = 0;
-        
-        Set<Character> set = new HashSet<>();
-        int i=0, j=0;
-        while(i<=j && j<s.length()) {
-            char c = s.charAt(j);
-            if (set.contains(c)) {
-                while(i<j){
-                  if(s.charAt(i)==c){
-                      i++;
-                      break;
-                  }
-
-                  set.remove(s.charAt(i));
-                  i++;
-                }
-            } else {
-                set.add(c);
-                maxLen = Math.max(maxLen, set.size());
-                j++;
+        int left = 0;
+        int right = 0;
+        int result = 0;
+        Set<Character> chars = new HashSet<>();
+        while(right< s.length()){
+            char c = s.charAt(right);
+            if(!chars.contains(c)){
+                chars.add(c);
+                right++;
+                result = Math.max(result, right - left);
+            }
+            else{
+                chars.remove(s.charAt(left));
+                left++;
             }
         }
-        
-        return maxLen;
+        return result;
     }
 }
