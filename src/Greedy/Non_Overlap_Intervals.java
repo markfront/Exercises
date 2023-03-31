@@ -35,6 +35,7 @@ Idea: Actually, the problem is the same as "Given a collection of intervals, fin
 Sorting Interval.end in ascending order is O(nlogn), then traverse intervals array to get the maximum number of non-overlapping intervals is O(n). 
 Total is O(nlogn).
 */
+import java.util.*;
 
 class Solution {
     public class Interval {
@@ -47,6 +48,12 @@ class Solution {
             end = e;
         }
     }
+
+    class IntervalComparator implements Comparator<Interval> {
+        public int compare(Interval a, Interval b) {
+            return new Integer(a.end).compareTo(new Integer(b.end));
+        }
+    };
     
     public int eraseOverlapIntervals(int[][] intervals) {
         if (intervals==null || intervals.length<2) return 0;
@@ -57,20 +64,16 @@ class Solution {
             list.add(new Interval(i, x[0], x[1]));
         }
         
-        Comparator<Interval> comp = new Comparator<>() {
-            public int compare(Interval a, Interval b) {
-                return a.end - b.end;
-            }
-        };
-        
-        Collections.sort(list, comp);
+        Collections.sort(list, new IntervalComparator());
         
         int prev_end = list.get(0).end;
         int count = 1; // count non-overlap intervals
         for(int i=1; i<list.size(); i++) {
-            if (prev_end <= list.get(i).start) {
-                prev_end = list.get(i).end;
+            int curr_start = list.get(i).start;
+            int curr_end = list.get(i).end; 
+            if (prev_end <= curr_start) {
                 count++;
+                prev_end = curr_end;
             }
         }        
         

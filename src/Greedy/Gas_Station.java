@@ -46,8 +46,9 @@ Travel to station 1. Your tank = 3 - 3 + 3 = 3
 You cannot travel back to station 2, as it requires 4 unit of gas but you only have 3.
 Therefore, you can't travel around the circuit once no matter where you start.
 */
+import java.util.*;
 
-class Solution {
+class Gas_Station {
     public class Station {
         int idx;
         int gas;
@@ -68,7 +69,7 @@ class Solution {
         
         Comparator<Station> comp = new Comparator<Station>() {
             public int compare(Station a, Station b) {                
-                return b.profit - a.profit;
+                return new Double(b.profit).compareTo(new Double(a.profit);
             }
         };
         

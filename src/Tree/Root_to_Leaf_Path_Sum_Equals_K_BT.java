@@ -25,56 +25,57 @@ Return:
 ]
 */
 
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
- 
+import java.util.*;
 
 class Solution {
+    /**
+    * Definition for a binary tree node.
+    */
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode() {}
+        TreeNode(int val) { this.val = val; }
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
         List<List<Integer>> result = new ArrayList<>();
         if (root==null) return result;
-        
+
         List<Integer> path = new ArrayList<>();
         path.add(root.val);
-        
+
         helper(root, sum, path, result);
-        
+
         return result;
     }
-    
+
     // Idea: use DFS
-    private void helper(TreeNode node, int sum, List<Integer> path, 
+    private void helper(TreeNode node, int sum, List<Integer> path,
                         List<List<Integer>> result) {
         if (node.left==null && node.right==null) {
             if (sum==node.val) {
                 // found 1 path
                 // Note: need to create a new ArrayList!!!
-                result.add(new ArrayList(path)); 
+                result.add(new ArrayList<Integer>(path));
                 return;
             } else {
                 return;
             }
-        } 
-        
+        }
+
         if (node.left != null) {
             path.add(node.left.val);
             helper(node.left, sum - node.val, path, result);
             path.remove(path.size()-1);
-        } 
-        
+        }
+
         if (node.right != null) {
             path.add(node.right.val);
             helper(node.right, sum - node.val, path, result);

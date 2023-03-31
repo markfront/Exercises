@@ -31,20 +31,21 @@ Output: 42
 
 /**
  * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
  */
 class Solution {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode() {}
+        TreeNode(int val) { this.val = val; }
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     public int maxPathSum(TreeNode root) {
         if (root == null) return Integer.MIN_VALUE;
         
@@ -61,10 +62,19 @@ class Solution {
         int left_max = helper(node.left, max);
         int right_max = helper(node.right, max);
         
-        int local_max = Math.max(node.val, Math.max(left_max+node.val, right_max+node.val));
+        int local_max = findMax(new int[]{node.val, left_max, right_max, 
+                                left_max+node.val, right_max+node.val});
         
-        max[0] = Math.max(max[0], Math.max(local_max, left_max+node.val+right_max));
+        max[0] = findMax(new int[] {max[0], local_max, left_max+node.val+right_max});
         
         return local_max;
+    }
+
+    private int findMax(int[] a) {
+        int max = Integer.MIN_VALUE;
+        for(int x : a) {
+            max = Math.max(max, x);
+        }
+        return max;
     }
 }

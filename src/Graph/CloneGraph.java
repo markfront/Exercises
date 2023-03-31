@@ -1,5 +1,8 @@
 /*
 https://leetcode.com/problems/clone-graph/
+*/
+
+import java.util.*;
 
 // Definition for a Node.
 class Node {
@@ -21,7 +24,7 @@ class Node {
         neighbors = _neighbors;
     }
 }
-*/
+
 
 class Solution {
     public Node cloneGraph(Node node) {
@@ -32,9 +35,10 @@ class Solution {
         
         Node head = node;
         Node newHead = new Node(head.val);
-        map.put(head, newHead);
         
-        queue.offer(node);
+        map.put(head, newHead);
+
+        queue.offer(head);
         
         while(!queue.isEmpty()) {
             Node curr = queue.poll();
@@ -43,14 +47,14 @@ class Solution {
             for(Node nbr: curr.neighbors) {
                 if (!map.containsKey(nbr)) {
                     // node nbr has not been cloned                    
-                    Node copy_nbr = new Node(nbr.val);
+                    Node nbr_copy = new Node(nbr.val);
                     
                     // nbr is curr's neighbor
                     // copy_nbr is copy's neighbor
                     // clone the edge: curr --> nbr, copy --> copy_nbr
-                    copy.neighbors.add(copy_nbr);
+                    copy.neighbors.add(nbr_copy);
                     
-                    map.put(nbr, copy_nbr); // indicate nbr has been cloned
+                    map.put(nbr, nbr_copy); // indicate nbr has been cloned
                     
                     queue.offer(nbr); // add nbr to queue to traverse its neighbors
                 } else {

@@ -29,27 +29,35 @@ Constraints:
     1 <= numCourses <= 10^5
 */
 
-public class Solution {
+import java.util.*;
+
+public class CourseSchedule_TopoSort {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         
         // prerequisites[i][j] means course j is prerequisite of course i.
         // In topological order, j is before i. In graphic, j-->i
         
-        int[] incomingEdges = new int[numCourses]; // for each course, track how many prerequisites it has.
-        List<Integer>[] outgoingCourses = new List[numCourses]; // for each course, track what other courses depend on it.
-        for(int i=0; i<outgoingCourses.length; i++) {
-            outgoingCourses[i] = new ArrayList<Integer>();
-        }
+        // for each course, track how many prerequisites it has.
+        int[] incomingEdges = new int[numCourses]; 
+
+        // for each course, track what courses depend on it.
+        Map<Integer, List<Integer>> outgoingCourses = new HashMap<>();
+
         // [i, j] means course j is prerequisite of course i.
-        for(int[] pair: prerequisites) {        
-            incomingEdges[pair[0]]++; // the course pair[0] has one more prerequisite
-            outgoingCourses[pair[1]].add(pair[0]); // course pair[1] is prerequisite of course pair[0]
-        }
-        
-        Deque<Integer> queue = new ArrayDeque<>();
-        for(int i=0; i<incomingEdges.length; i++) {
-            if (incomingEdges[i]==0) { // the course i has NO prerequisite
-                queue.add(i);
+        for(int[] pair: prerequisites) {
+            int courseId = pair[0];
+            int prereqId = pair[1];
+
+            incomingEdges[courseId]++; // the course pair[0] has one more prerequisite
+
+            // course pair[1] is prerequisite of course pair[0]
+            // outgoing is from prereqId to courseId
+            if (!outgoingCourses.containsKey(prereqId)) {
+                List<Integer> outgoingList = new ArrayList<>();
+                outgoingList.add(courseId);
+                outgoingCourses.put(prereqId, outgoingList);
+            } else {
+                outgoingCourses.get(prereqId).add(courseId);
             }
         }
         
@@ -72,14 +80,29 @@ public class Solution {
             return L (a topologically sorted order)
         */
         
-        int edgeCnt = prerequisites.length; // total edges in the graph
+        // track the courses that have NO prerequisite
+        Deque<Integer> queue = new ArrayDeque<>();
+        for(int i=0; i<incomingEdges.length; i++) {
+            if (incomingEdges[i]==0) { 
+                queue.add(i);
+            }
+        }
+
+        int edgeCnt = prerequisites.length; // track total edges not satisfied
         while(!queue.isEmpty()) {
             int curr = queue.poll();
-            for(int x: outgoingCourses[curr]) { // go over all courses x that depend on curr
-                edgeCnt--; // indicate this edge has been checked
+
+            // for all courses depend on this curr course
+            // flag that this prerequisite has been satisfied
+            List<Integer> outgoingList = outgoingCourses.get(curr);
+            for(int x: outgoingList) { 
+                edgeCnt--; // remove 1 from total unsatisfied
                 --incomingEdges[x]; // for course x, reduce 1 prerequisite course, which is curr
-                if (incomingEdges[x]==0) // the course x has NO more prerequisite
+                if (incomingEdges[x]==0) {
+                    // the course x has NO more prerequisite
+                    // means other courses depending on it could become unblocked
                     queue.add(x);
+                }
             }
         }
         return edgeCnt==0; // all prerequisites are satisfied

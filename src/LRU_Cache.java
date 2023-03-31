@@ -9,110 +9,110 @@ One particularity about the double linked list that I implemented is that I crea
 so that we don't need to check the NULL node during the update. This makes the code more concise and clean, and also it is good for the performance.
 */
 
-public class LRUCache {
+import java.util.*;
 
-  class DLinkedNode {
+public class LRU_Cache {
+
+  class DblLinkNode {
     int key;
     int value;
-    DLinkedNode pre;
-    DLinkedNode post;
+    DblLinkNode prev;
+    DblLinkNode post;
   }
 
   /**
    * Always add the new node right after head;
    */
-  private void addNode(DLinkedNode node) {
-
-    node.pre = head;
+  private void addToFront(DblLinkNode node) {
+    node.prev = head;
     node.post = head.post;
 
-    head.post.pre = node;
+    head.post.prev = node;
     head.post = node;
   }
 
   /**
    * Remove an existing node from the linked list.
    */
-  private void removeNode(DLinkedNode node){
-    DLinkedNode pre = node.pre;
-    DLinkedNode post = node.post;
+  private void removeNode(DblLinkNode node){
+    DblLinkNode prev = node.prev;
+    DblLinkNode post = node.post;
 
-    pre.post = post;
-    post.pre = pre;
+    prev.post = post;
+    post.prev = prev;
   }
 
   /**
-   * Move certain node in between to the head.
+   * Move certain node in the middle to the head.
    */
-  private void moveToHead(DLinkedNode node){
+  private void moveToFront(DblLinkNode node){
     this.removeNode(node);
-    this.addNode(node);
+    this.addToFront(node);
   }
 
-  // pop the current tail. 
-  private DLinkedNode popTail(){
-    DLinkedNode res = tail.pre;
+  // remove the current tail. 
+  private DblLinkNode removeFromEnd(){
+    DblLinkNode res = tail.prev;
     this.removeNode(res);
     return res;
   }
 
-  private Hashtable<Integer, DLinkedNode> 
-    cache = new Hashtable<Integer, DLinkedNode>();
+  private Map<Integer, DblLinkNode> cache = new HashMap<>();
   private int count;
   private int capacity;
-  private DLinkedNode head, tail;
+  private DblLinkNode head, tail;
 
-  public LRUCache(int capacity) {
+  public LRU_Cache(int capacity) {
     this.count = 0;
     this.capacity = capacity;
 
-    head = new DLinkedNode();
-    head.pre = null;
+    head = new DblLinkNode(); // dummy head
+    head.prev = null;
 
-    tail = new DLinkedNode();
+    tail = new DblLinkNode(); // dummy tail
     tail.post = null;
 
     head.post = tail;
-    tail.pre = head;
+    tail.prev = head;
   }
 
   public int get(int key) {
 
-    DLinkedNode node = cache.get(key);
+    DblLinkNode node = cache.get(key);
     if(node == null){
       return -1; // should raise exception here.
     }
 
     // move the accessed node to the head;
-    this.moveToHead(node);
+    this.moveToFront(node);
 
     return node.value;
   }
 
   public void put(int key, int value) {
-    DLinkedNode node = cache.get(key);
+    DblLinkNode node = cache.get(key);
 
     if(node == null){
 
-      DLinkedNode newNode = new DLinkedNode();
+      DblLinkNode newNode = new DblLinkNode();
       newNode.key = key;
       newNode.value = value;
 
       this.cache.put(key, newNode);
-      this.addNode(newNode);
+      this.addToFront(newNode);
 
       ++count;
 
       if(count > capacity){
         // pop the tail
-        DLinkedNode tail = this.popTail();
+        DblLinkNode tail = this.removeFromEnd();
         this.cache.remove(tail.key);
         --count;
       }
     }else{
       // update the value.
       node.value = value;
-      this.moveToHead(node);
+      this.moveToFront(node);
     }
   }
 

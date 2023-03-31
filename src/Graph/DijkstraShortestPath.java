@@ -1,19 +1,8 @@
-public class Vertex {
-  public string id;
-  public List<Edge> neighbors;
-}
-
-public class Edge {
-  //public Vertex from;
-  public Vertex to;
-  public float weight;
-}
-
-public class Graph {
-  public Set<Vertex> vertices;
-}
-
 /*
+* https://en.wikipedia.org/wiki/Dijkstra's_algorithm
+*
+The following pseudocode algorithm uses a Priority Queue. The dist is an array that contains the current distances from the source to other vertices, i.e. dist[u] is the current distance from the source to the vertex u. The prev array contains pointers to previous-hop nodes on the shortest path from source to the given vertex.
+
 1  function Dijkstra(Graph, source):
 2      dist[source] ← 0                           // Initialization
 3
@@ -38,26 +27,45 @@ public class Graph {
 22
 23     return dist, prev
 */
+import java.util.*;
 
 public class DijkstraShortestPath {
+  public class Vertex {
+    public String id;
+    public List<Edge> neighbors;
+  }
+  
+  public class Edge {
+    //public Vertex from;
+    public Vertex to;
+    public float weight;
+  }
+  
+  public class Graph {
+    public Set<Vertex> vertices;
+  }
+  
+  // For each vertex, keep its so far the minimum distance to the source vertex
+  static Map<Vertex, Float> dist = new HashMap<>(); 
+
+  public class VertexComparator implements Comparator<Vertex> {
+    public int compare(Vertex v1, Vertex v2) {
+      float d1 = (dist.containsKey(v1))? dist.get(v1) : Float.MAX_VALUE;
+      float d2 = (dist.containsKey(v2))? dist.get(v2) : Float.MAX_VALUE;
+      return (d1 < d2)? -1 : (d1>d2) ? 1 : 0; // compare distance to the source vertex
+    }
+  };
 
   public List<Vertex> solve(Graph g, Vertex source, Vertex target) {
-    Map<Vertex, float> dist = new HashMap<>(); // Given a vertex, keep its distance to the source vertex
-    dist.put(source, 0);
     
-    Map<Vertex, Vertex> prev = new HashMap<>(); // Given a vertex, keep its previous vertex on a path
+    dist.put(source, 0f);
     
-    Comparator<Vertex> comparator = new Comparator<>() {
-      public int compare(Vertext v1, Vertex v2) {
-        float d1 = (dist.ContainsKey(v1))? dist.get(v1) : Float.MAX_VALUE;
-        float d2 = (dist.ContainsKey(v2))? dist.get(v2) : Float.MAX_VALUE;
-        return d1 < d2; // compare distance to the source vertex
-      }
-    };
+    // for each vertex, keep its previous vertex on a path
+    Map<Vertex, Vertex> prev = new HashMap<>(); 
     
-    PriorityQueue<Vertex> queue = new PriorityQueue<>(comparator);
+    PriorityQueue<Vertex> queue = new PriorityQueue<>(new VertexComparator());
     
-    foreach(Vertex v : g) {
+    for(Vertex v : g.vertices) {
       if (v != source) {
         dist.put(v, Float.MAX_VALUE);
         
@@ -68,15 +76,21 @@ public class DijkstraShortestPath {
     while(!queue.isEmpty()) {
       Vertex u = queue.poll(); // remove min from the queue
       if (u.neighbors != null) {
-        foreach(Edge e : u.neighbors) {
+        for(Edge e : u.neighbors) {
           Vertex v = e.to;
+          // distance from source to v = 
+          // (distance from source to u) + (distance from u to v)
           float alt = dist.get(u) + e.weight;
           if (alt < dist.get(v)) {
             dist.put(v, alt);
             prev.put(v, u);
-            // add or update v in the queue
-            if (queue.Contains(v)) queue.remove(v);
-            queue.offer(v);
+            
+            // to decrease the priority of v
+            // by adding or updating v in the queue
+            if (queue.contains(v)) {
+              queue.remove(v);
+            }
+            queue.offer(v); // add v to end of the queue
           }
         }
       }
@@ -91,8 +105,8 @@ public class DijkstraShortestPath {
     6          u ← prev[u]                           // Traverse from target to source
     */
     
-    List<Vertex> path = new List<>();
-    if (prev.containsKey(target) || target == source) { // found a path from soure to target
+    List<Vertex> path = new ArrayList<>();
+    if (target != source && prev.containsKey(target)) { // found a path from soure to target
       Vertex u = target;
       while(u != null) {
         path.add(u);
