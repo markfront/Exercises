@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class Solution {
 
     public static int CompareInterval(int[] v1, int[] v2)
@@ -6,7 +8,7 @@ public class Solution {
         else if (v1[0] > v2[0]) return 1;
         else return 0;
     }
-    
+
 
     public int[][] Merge(int[][] intervals) {
         List<int[]> list = intervals.ToList();

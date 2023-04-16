@@ -1,23 +1,29 @@
 
 import java.util.*;
 
+/*
+ * C(n, r) = n! / (r! * (n-r)!)
+ * P(n, r) = n! / (n-r)!
+ */
 public class Permutations {
 
-    public static List<String[]> permute(String[] strings) {
+    public static List<String[]> permute(String[] strings, int k) {
         List<String[]> result = new ArrayList<>();
-        helper(0, strings, result);
+        helper(0, k, strings, result);
         return result;
     }
 
-    private static void helper(int start, String[] strings, List<String[]> result){
-        if(start==strings.length-1){
-            result.add(Arrays.copyOf(strings, strings.length));
+    private static void helper(int start, int k, String[] strings, List<String[]> result){
+        if(start==k){
+            result.add(Arrays.copyOf(strings, k));
             return;
         }
 
         for(int i=start; i<strings.length; i++){
             swap(strings, i, start);
-            helper(start+1, strings, result);
+
+            helper(start+1, k, strings, result);
+
             swap(strings, i, start);
         }
     }
@@ -35,9 +41,9 @@ public class Permutations {
     }
 
     public static void main(String[] args) {
-        String[] strings = new String[] { "a", "b", "c", "d" };
+        String[] strings = new String[] { "a", "b", "c", "d", "e" };
 
-        List<String[]> permutations = permute(strings);
+        List<String[]> permutations = permute(strings, 3);
 
         printPermutations(permutations, ",");
 
