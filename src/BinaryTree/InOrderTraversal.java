@@ -25,15 +25,27 @@ public class InOrderTraversal {
         Stack<TreeNode> stack = new Stack<TreeNode>();
         TreeNode curr = root;
 
-        while (curr != null || !stack.isEmpty()) {
+        // Process initial node and all its left descendants
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+
+        // Loop until the stack is empty
+        while (!stack.empty()) {
+            // Retrieve the top node from the stack
+            curr = stack.pop();
+
+            // Add the retrieved node's value to the list
+            result.add(curr.val);
+
+            // Move to the right child and add any left children to the stack
+            curr = curr.right;
+
             while (curr != null) {
                 stack.push(curr);
                 curr = curr.left;
             }
-
-            curr = stack.pop();
-            result.add(curr.val);
-            curr = curr.right;
         }
 
         return result;

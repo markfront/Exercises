@@ -6,13 +6,14 @@ For example:
 Given [2, 5, 10] and amount=6, the method should return -1.
 Given [1, 2, 5] and amount=7, the method should return 2. 
 */
+import java.util.Arrays;
 
 public class DP_CoinChange {
   // Time complexity is O(amount * num_of_coins) and space complexity is O(amount).
-  public int solve(int[] coins, int amout) {
-    if (coins==null || coins.length==0 || amuont<=0) return -1;
+  public int solve(int[] coins, int amount) {
+    if (coins==null || coins.length==0 || amount<=0) return -1;
     
-    int[] dp = new int[amount+1];
+    int[] dp = new int[amount+1]; // dp to keep the number of coins that make the amount.
     Arrays.fill(dp, Integer.MAX_VALUE);
     dp[0] = 0;
     
@@ -25,7 +26,7 @@ public class DP_CoinChange {
           else {
             if (dp[a-coin] == Integer.MAX_VALUE) continue;
             else {
-              dp[a] = Math.Min(dp[a], dp[a-coin] + 1); // add 1 more coin to the previous amount
+              dp[a] = Math.min(dp[a], dp[a-coin] + 1); // add 1 more coin to the previous amount
             }
           }
         }

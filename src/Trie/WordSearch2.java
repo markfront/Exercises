@@ -22,7 +22,7 @@ public class WordSearch2 {
 
         TrieNode root = new TrieNode();
         for(String word : words){
-            addTrie(root,word);
+            addTrie(root, word);
         }
 
         int m = board.length;
@@ -47,7 +47,8 @@ public class WordSearch2 {
         }
     }
 
-    private void dfs(char[][] board, int x, int y, TrieNode node, StringBuilder sb, List<String> result) {
+    private void dfs(char[][] board, int x, int y, TrieNode node, 
+                    StringBuilder sb, List<String> result) {
         int m = board.length;
         int n = board[0].length;
 

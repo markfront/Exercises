@@ -17,7 +17,7 @@ public class LRU_Cache {
     int key;
     int value;
     DblLinkNode prev;
-    DblLinkNode post;
+    DblLinkNode next;
   }
 
   /**
@@ -25,10 +25,10 @@ public class LRU_Cache {
    */
   private void addToFront(DblLinkNode node) {
     node.prev = head;
-    node.post = head.post;
+    node.next = head.next;
 
-    head.post.prev = node;
-    head.post = node;
+    head.next.prev = node;
+    head.next = node;
   }
 
   /**
@@ -36,9 +36,9 @@ public class LRU_Cache {
    */
   private void removeNode(DblLinkNode node){
     DblLinkNode prev = node.prev;
-    DblLinkNode post = node.post;
+    DblLinkNode post = node.next;
 
-    prev.post = post;
+    prev.next = post;
     post.prev = prev;
   }
 
@@ -70,9 +70,9 @@ public class LRU_Cache {
     head.prev = null;
 
     tail = new DblLinkNode(); // dummy tail
-    tail.post = null;
+    tail.next = null;
 
-    head.post = tail;
+    head.next = tail;
     tail.prev = head;
   }
 

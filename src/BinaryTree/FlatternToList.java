@@ -1,5 +1,7 @@
 package BinaryTree;
 
+import java.util.Stack;
+
 public class FlatternToList {
     /*
     it is possible to flatten a binary tree into a linked list iteratively using a stack. Here's the algorithm to do it:

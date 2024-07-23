@@ -13,8 +13,6 @@ Output: 0
 
 */
 
-package DP;
-
 import java.util.*;
 
 public class PaintHouse {
@@ -24,13 +22,14 @@ public class PaintHouse {
             return 0;
         }
     
-        int[][] dp = new int[n][3];
-        dp[0] = costs[0];
+        int[][] dp = new int[n][3]; //keep the costs of each house on the 3 colors
+        dp[0] = costs[0]; // costs of house 0
     
         for (int i = 1; i < n; i++) {
-            dp[i][0] = costs[i][0] + Math.min(dp[i-1][1], dp[i-1][2]);
-            dp[i][1] = costs[i][1] + Math.min(dp[i-1][0], dp[i-1][2]);
-            dp[i][2] = costs[i][2] + Math.min(dp[i-1][0], dp[i-1][1]);
+            // house i color must be different from house i-1
+            dp[i][0] = costs[i][0] + Math.min(dp[i-1][1], dp[i-1][2]); // the i-th house's cost on red color
+            dp[i][1] = costs[i][1] + Math.min(dp[i-1][0], dp[i-1][2]); // the i-th house's cost on blue color
+            dp[i][2] = costs[i][2] + Math.min(dp[i-1][0], dp[i-1][1]); // the i-th house's cost on green color
         }
     
         return Math.min(
